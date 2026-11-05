@@ -63,6 +63,20 @@ On the PC: `Get-ScheduledTask 'Codex SSH app server'`, and the log is
 If you remove or upgrade Python to a new major version, run `install.ps1` again: the forced command
 and the launchers name the interpreter's path.
 
+## Uninstall
+
+On the PC, in an admin PowerShell:
+
+```powershell
+Stop-ScheduledTask -TaskName 'Codex SSH app server'
+Unregister-ScheduledTask -TaskName 'Codex SSH app server' -Confirm:$false
+Remove-Item -Recurse "$env:LOCALAPPDATA\codex-ssh-windows"
+```
+
+Then delete the Codex key lines (the ones with `command="…codex-ssh.py"`) from
+`%ProgramData%\ssh\administrators_authorized_keys` (or `~/.ssh/authorized_keys`), or restore the
+`.before-codex-ssh-*` backup that `install.ps1` made next to it.
+
 ## License
 
-MIT
+[MIT](LICENSE)
